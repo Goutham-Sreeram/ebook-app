@@ -260,7 +260,10 @@ export default function HomeScreen({ navigation }) {
         <TouchableOpacity style={styles.navItem}>
           <Ionicons name="home" size={24} color="#6B4EFF" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity 
+          style={styles.navItem}
+          onPress={() => navigation.navigate('SearchScreen')}
+        >
           <Ionicons name="search" size={24} color="#666" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem}>
@@ -312,7 +315,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 20,
     marginBottom: 10,
-    borderColor: '#333',
+    borderColor: '#E2E2E2',
     borderWidth: 1,
     minWidth: 65,
     alignItems: 'center',
@@ -329,7 +332,8 @@ const styles = StyleSheet.create({
   },
   featuredBook: {
     flexDirection: 'row',
-    backgroundColor: '#f8f8f8',
+    borderColor: '#E2E2E2',
+    borderWidth: 1,
     borderRadius: 12,
     padding: 15,
     marginBottom: 20,

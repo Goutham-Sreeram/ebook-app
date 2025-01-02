@@ -12,7 +12,7 @@ export default function StartScreen({ navigation }) {
       <Logo />
       <Header>Welcome to PaperTrail</Header>
       <Paragraph>
-        A magazine and book subsciption management app.
+        A magazine and book subsciption management app
       </Paragraph>
       <Button
         mode="contained"
