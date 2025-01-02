@@ -138,18 +138,20 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 20,
     marginBottom: 10,
-    backgroundColor: '#f0f0f0',
+    borderColor: '#333',
+    borderWidth: 1,
     minWidth: 65,
     alignItems: 'center',
   },
   activeCategory: {
-    backgroundColor: '#6B4EFF',
+    borderColor: '#6B4EFF',
+    borderWidth: 1,
   },
   categoryText: {
     color: '#333',
   },
   activeCategoryText: {
-    color: '#fff',
+    color: '#6B4EFF',
   },
   featuredBook: {
     flexDirection: 'row',
