@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Animated, Easing } from "react-native";
+import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Animated, Easing, Alert } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen({ navigation }) {
@@ -12,6 +12,23 @@ export default function HomeScreen({ navigation }) {
       ...prev,
       [bookId]: !prev[bookId]
     }));
+  };
+
+  const handleLogout = () => {
+    Alert.alert(
+      "Logout",
+      "Are you sure you want to logout?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        {
+          text: "Logout",
+          onPress: () => navigation.replace('LoginScreen')
+        }
+      ]
+    );
   };
 
   useEffect(() => {
@@ -165,10 +182,12 @@ export default function HomeScreen({ navigation }) {
             <Text style={styles.greeting}>Good Morning</Text>
             <Text style={styles.userName}>Elise Maria</Text>
           </View>
-          <Image 
-             source={require('../../assets/avatar.jpg')}
-            style={styles.avatar}
-          />
+          <TouchableOpacity onPress={handleLogout}>
+            <Image 
+              source={require('../../assets/avatar.jpg')}
+              style={styles.avatar}
+            />
+          </TouchableOpacity>
         </View>
 
         {/* Categories */}
