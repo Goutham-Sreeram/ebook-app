@@ -1,8 +1,151 @@
-import React from "react";
-import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Animated, Easing } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen({ navigation }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const pulseAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const pulse = Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim, {
+          toValue: 1,
+          duration: 1000,
+          easing: Easing.ease,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulseAnim, {
+          toValue: 0,
+          duration: 1000,
+          easing: Easing.ease,
+          useNativeDriver: true,
+        })
+      ])
+    );
+
+    pulse.start();
+
+    // Simulate loading time
+    setTimeout(() => {
+      pulse.stop();
+      setIsLoading(false);
+    }, 2000);
+
+    return () => pulse.stop();
+  }, []);
+
+  const LoadingBlock = ({ style }) => {
+    const opacity = pulseAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0.3, 0.7]
+    });
+
+    const scale = pulseAnim.interpolate({
+      inputRange: [0, 0.5, 1],
+      outputRange: [1, 1.02, 1]
+    });
+
+    return (
+      <Animated.View
+        style={[
+          styles.loadingBlock,
+          style,
+          {
+            opacity,
+            transform: [{ scale }]
+          }
+        ]}
+      />
+    );
+  };
+
+  if (isLoading) {
+    return (
+      <View style={styles.mainContainer}>
+        <ScrollView style={styles.container}>
+          {/* Header Loading */}
+          <View style={styles.header}>
+            <View>
+              <LoadingBlock style={{ width: 200, height: 30, marginBottom: 10 }} />
+              <LoadingBlock style={{ width: 150, height: 20 }} />
+            </View>
+            <LoadingBlock style={{ width: 50, height: 50, borderRadius: 25 }} />
+          </View>
+
+          {/* Categories Loading */}
+          <View style={styles.categoriesContainer}>
+            {[1, 2, 3, 4, 5].map((_, i) => (
+              <LoadingBlock
+                key={i}
+                style={{
+                  width: 65,
+                  height: 35,
+                  borderRadius: 20,
+                  marginBottom: 10
+                }}
+              />
+            ))}
+          </View>
+
+          {/* Featured Book Loading */}
+          <LoadingBlock
+            style={{
+              width: '100%',
+              height: 150,
+              borderRadius: 12,
+              marginBottom: 20
+            }}
+          />
+
+          {/* Tabs Loading */}
+          <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+            {[1, 2, 3].map((_, i) => (
+              <LoadingBlock
+                key={i}
+                style={{
+                  width: 100,
+                  height: 20,
+                  marginRight: 20,
+                  borderRadius: 4
+                }}
+              />
+            ))}
+          </View>
+
+          {/* Grid Loading */}
+          <View style={styles.bookGrid}>
+            {[1, 2, 3, 4].map((_, i) => (
+              <LoadingBlock
+                key={i}
+                style={{
+                  width: '48%',
+                  height: 200,
+                  borderRadius: 10,
+                  marginBottom: 15
+                }}
+              />
+            ))}
+          </View>
+        </ScrollView>
+
+        {/* Navbar Loading */}
+        <View style={styles.navbar}>
+          {[1, 2, 3].map((_, i) => (
+            <LoadingBlock
+              key={i}
+              style={{
+                width: 24,
+                height: 24,
+                borderRadius: 12
+              }}
+            />
+          ))}
+        </View>
+      </View>
+    );
+  }
+
   const categories = ["Tech", "Art", "Culture", "Fashion", "Architecture"];
   
   return (
@@ -220,5 +363,9 @@ const styles = StyleSheet.create({
   },
   navItem: {
     alignItems: 'center',
+  },
+  loadingBlock: {
+    backgroundColor: '#E8E8E8',
+    borderRadius: 4,
   },
 });
