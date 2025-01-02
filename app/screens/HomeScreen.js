@@ -70,6 +70,14 @@ export default function HomeScreen({ navigation }) {
             source={require('../../assets/book3.webp')}
             style={styles.gridBook}
           />
+          <Image 
+            source={require('../../assets/book1.webp')}
+            style={styles.gridBook}
+          />
+          <Image 
+            source={require('../../assets/book2.webp')}
+            style={styles.gridBook}
+          />
         </View>
       </ScrollView>
 
@@ -190,12 +198,15 @@ const styles = StyleSheet.create({
   },
   bookGrid: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
+    marginBottom: 20,
   },
   gridBook: {
     width: '48%',
     height: 200,
     borderRadius: 10,
+    marginBottom: 15,
   },
   navbar: {
     flexDirection: 'row',
