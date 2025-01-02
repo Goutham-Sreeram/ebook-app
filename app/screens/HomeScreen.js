@@ -4,7 +4,15 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function HomeScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
+  const [pressedBooks, setPressedBooks] = useState({});
   const pulseAnim = useRef(new Animated.Value(0)).current;
+
+  const handleBookPress = (bookId) => {
+    setPressedBooks(prev => ({
+      ...prev,
+      [bookId]: !prev[bookId]
+    }));
+  };
 
   useEffect(() => {
     const pulse = Animated.loop(
@@ -205,22 +213,26 @@ export default function HomeScreen({ navigation }) {
 
         {/* Book Grid */}
         <View style={styles.bookGrid}>
-          <Image 
-            source={require('../../assets/book2.webp')}
-            style={styles.gridBook}
-          />
-          <Image 
-            source={require('../../assets/book3.webp')}
-            style={styles.gridBook}
-          />
-          <Image 
-            source={require('../../assets/book1.webp')}
-            style={styles.gridBook}
-          />
-          <Image 
-            source={require('../../assets/book2.webp')}
-            style={styles.gridBook}
-          />
+          {[
+            { id: 1, source: require('../../assets/book2.webp') },
+            { id: 2, source: require('../../assets/book3.webp') },
+            { id: 3, source: require('../../assets/book1.webp') },
+            { id: 4, source: require('../../assets/book2.webp') }
+          ].map((book) => (
+            <TouchableOpacity
+              key={book.id}
+              style={[
+                styles.bookWrapper,
+                pressedBooks[book.id] && styles.bookWrapperPressed
+              ]}
+              onPress={() => handleBookPress(book.id)}
+            >
+              <Image 
+                source={book.source}
+                style={styles.gridBook}
+              />
+            </TouchableOpacity>
+          ))}
         </View>
       </ScrollView>
 
@@ -367,5 +379,21 @@ const styles = StyleSheet.create({
   loadingBlock: {
     backgroundColor: '#E8E8E8',
     borderRadius: 4,
+  },
+  bookWrapper: {
+    width: '48%',
+    marginBottom: 15,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    overflow: 'hidden',
+    android_hyphenationFrequency: 'none',
+  },
+  bookWrapperPressed: {
+    elevation: 8,
+  },
+  gridBook: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
   },
 });
