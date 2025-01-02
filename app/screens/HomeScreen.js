@@ -1,11 +1,48 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Animated, Easing, Alert } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function HomeScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(true);
   const [pressedBooks, setPressedBooks] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState("Tech");
   const pulseAnim = useRef(new Animated.Value(0)).current;
+
+  const booksByCategory = {
+    Tech: [
+      { id: 1, source: require('../../assets/book1.webp'), title: "Greta & Valdin", author: "Rebecca K Reily" },
+      { id: 2, source: require('../../assets/book2.webp'), title: "Tech Book 2", author: "Author 2" },
+      { id: 3, source: require('../../assets/book3.webp'), title: "Tech Book 3", author: "Author 3" },
+      { id: 4, source: require('../../assets/book2.webp'), title: "Tech Book 4", author: "Author 4" }
+    ],
+    Art: [
+      { id: 5, source: require('../../assets/book3.webp'), title: "Art Book 1", author: "Artist 1" },
+      { id: 6, source: require('../../assets/book1.webp'), title: "Art Book 2", author: "Artist 2" },
+      { id: 7, source: require('../../assets/book2.webp'), title: "Art Book 3", author: "Artist 3" },
+      { id: 8, source: require('../../assets/book3.webp'), title: "Art Book 4", author: "Artist 4" }
+    ],
+    Culture: [
+      { id: 9, source: require('../../assets/book2.webp'), title: "Culture Book 1", author: "Writer 1" },
+      { id: 10, source: require('../../assets/book3.webp'), title: "Culture Book 2", author: "Writer 2" },
+      { id: 11, source: require('../../assets/book1.webp'), title: "Culture Book 3", author: "Writer 3" },
+      { id: 12, source: require('../../assets/book2.webp'), title: "Culture Book 4", author: "Writer 4" }
+    ],
+    Fashion: [
+      { id: 13, source: require('../../assets/book1.webp'), title: "Fashion Book 1", author: "Designer 1" },
+      { id: 14, source: require('../../assets/book2.webp'), title: "Fashion Book 2", author: "Designer 2" },
+      { id: 15, source: require('../../assets/book3.webp'), title: "Fashion Book 3", author: "Designer 3" },
+      { id: 16, source: require('../../assets/book1.webp'), title: "Fashion Book 4", author: "Designer 4" }
+    ],
+    Architecture: [
+      { id: 17, source: require('../../assets/book3.webp'), title: "Architecture Book 1", author: "Architect 1" },
+      { id: 18, source: require('../../assets/book1.webp'), title: "Architecture Book 2", author: "Architect 2" },
+      { id: 19, source: require('../../assets/book2.webp'), title: "Architecture Book 3", author: "Architect 3" },
+      { id: 20, source: require('../../assets/book3.webp'), title: "Architecture Book 4", author: "Architect 4" }
+    ]
+  };
+
+  const categories = ["Tech", "Art", "Culture", "Fashion", "Architecture"];
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -58,7 +95,6 @@ export default function HomeScreen({ navigation }) {
 
     pulse.start();
 
-    // Simulate loading time
     setTimeout(() => {
       pulse.stop();
       setIsLoading(false);
@@ -67,119 +103,6 @@ export default function HomeScreen({ navigation }) {
     return () => pulse.stop();
   }, []);
 
-  const LoadingBlock = ({ style }) => {
-    const opacity = pulseAnim.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0.3, 0.7]
-    });
-
-    const scale = pulseAnim.interpolate({
-      inputRange: [0, 0.5, 1],
-      outputRange: [1, 1.02, 1]
-    });
-
-    return (
-      <Animated.View
-        style={[
-          styles.loadingBlock,
-          style,
-          {
-            opacity,
-            transform: [{ scale }]
-          }
-        ]}
-      />
-    );
-  };
-
-  if (isLoading) {
-    return (
-      <View style={styles.mainContainer}>
-        <ScrollView style={styles.container}>
-          {/* Header Loading */}
-          <View style={styles.header}>
-            <View>
-              <LoadingBlock style={{ width: 200, height: 30, marginBottom: 10 }} />
-              <LoadingBlock style={{ width: 150, height: 20 }} />
-            </View>
-            <LoadingBlock style={{ width: 50, height: 50, borderRadius: 25 }} />
-          </View>
-
-          {/* Categories Loading */}
-          <View style={styles.categoriesContainer}>
-            {[1, 2, 3, 4, 5].map((_, i) => (
-              <LoadingBlock
-                key={i}
-                style={{
-                  width: 65,
-                  height: 35,
-                  borderRadius: 20,
-                  marginBottom: 10
-                }}
-              />
-            ))}
-          </View>
-
-          {/* Featured Book Loading */}
-          <LoadingBlock
-            style={{
-              width: '100%',
-              height: 150,
-              borderRadius: 12,
-              marginBottom: 20
-            }}
-          />
-
-          {/* Tabs Loading */}
-          <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-            {[1, 2, 3].map((_, i) => (
-              <LoadingBlock
-                key={i}
-                style={{
-                  width: 100,
-                  height: 20,
-                  marginRight: 20,
-                  borderRadius: 4
-                }}
-              />
-            ))}
-          </View>
-
-          {/* Grid Loading */}
-          <View style={styles.bookGrid}>
-            {[1, 2, 3, 4].map((_, i) => (
-              <LoadingBlock
-                key={i}
-                style={{
-                  width: '48%',
-                  height: 200,
-                  borderRadius: 10,
-                  marginBottom: 15
-                }}
-              />
-            ))}
-          </View>
-        </ScrollView>
-
-        {/* Navbar Loading */}
-        <View style={styles.navbar}>
-          {[1, 2, 3].map((_, i) => (
-            <LoadingBlock
-              key={i}
-              style={{
-                width: 24,
-                height: 24,
-                borderRadius: 12
-              }}
-            />
-          ))}
-        </View>
-      </View>
-    );
-  }
-
-  const categories = ["Tech", "Art", "Culture", "Fashion", "Architecture"];
-  
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.container}>
@@ -199,17 +122,18 @@ export default function HomeScreen({ navigation }) {
 
         {/* Categories */}
         <View style={styles.categoriesContainer}>
-          {categories.map((category, index) => (
+          {categories.map((category) => (
             <TouchableOpacity 
-              key={index}
+              key={category}
               style={[
                 styles.categoryButton,
-                index === 0 && styles.activeCategory
+                category === selectedCategory && styles.activeCategory
               ]}
+              onPress={() => setSelectedCategory(category)}
             >
               <Text style={[
                 styles.categoryText,
-                index === 0 && styles.activeCategoryText
+                category === selectedCategory && styles.activeCategoryText
               ]}>
                 {category}
               </Text>
@@ -226,25 +150,20 @@ export default function HomeScreen({ navigation }) {
           <View style={styles.bookInfo}>
             <Text style={styles.bookTitle}>Greta & Valdin</Text>
             <Text style={styles.authorName}>Rebecca K Reily</Text>
-            <View style={styles.progressBar} />
+            <View style={styles.progressBarContainer}>
+              <LinearGradient
+                colors={['#6B4EFF', '#4E7FFF']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.progressBar}
+              />
+            </View>
           </View>
-        </View>
-
-        {/* Tabs */}
-        <View style={styles.tabs}>
-          <Text style={[styles.tabText, styles.activeTab]}>My Suggestions</Text>
-          <Text style={styles.tabText}>Popular</Text>
-          <Text style={styles.tabText}>My Collection</Text>
         </View>
 
         {/* Book Grid */}
         <View style={styles.bookGrid}>
-          {[
-            { id: 1, source: require('../../assets/book2.webp') },
-            { id: 2, source: require('../../assets/book3.webp') },
-            { id: 3, source: require('../../assets/book1.webp') },
-            { id: 4, source: require('../../assets/book2.webp') }
-          ].map((book) => (
+          {booksByCategory[selectedCategory].map((book) => (
             <TouchableOpacity
               key={book.id}
               style={[
@@ -257,6 +176,14 @@ export default function HomeScreen({ navigation }) {
                 source={book.source}
                 style={styles.gridBook}
               />
+              <View style={styles.bookGridInfo}>
+                <Text style={styles.gridBookTitle} numberOfLines={1}>
+                  {book.title}
+                </Text>
+                <Text style={styles.gridAuthorName} numberOfLines={1}>
+                  {book.author}
+                </Text>
+              </View>
             </TouchableOpacity>
           ))}
         </View>
@@ -304,6 +231,7 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: '#333',
   },
   userName: {
     fontSize: 16,
@@ -361,30 +289,24 @@ const styles = StyleSheet.create({
   bookTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#333',
     marginBottom: 5,
   },
   authorName: {
     color: '#666',
     marginBottom: 10,
   },
-  progressBar: {
+  progressBarContainer: {
     height: 4,
-    backgroundColor: '#6B4EFF',
-    width: '60%',
+    backgroundColor: '#E2E2E2',
     borderRadius: 2,
     marginTop: 10,
+    width: '100%',
   },
-  tabs: {
-    flexDirection: 'row',
-    marginBottom: 20,
-  },
-  tabText: {
-    marginRight: 20,
-    color: '#666',
-  },
-  activeTab: {
-    color: '#6B4EFF',
-    fontWeight: 'bold',
+  progressBar: {
+    height: 4,
+    width: '60%',
+    borderRadius: 2,
   },
   bookGrid: {
     flexDirection: 'row',
@@ -392,34 +314,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 20,
   },
-  gridBook: {
-    width: '48%',
-    height: 200,
-    borderRadius: 10,
-    marginBottom: 15,
-  },
-  navbar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingVertical: 15,
-    
-  },
-  navItem: {
-    alignItems: 'center',
-  },
-  loadingBlock: {
-    backgroundColor: '#E8E8E8',
-    borderRadius: 4,
-  },
   bookWrapper: {
     width: '48%',
     marginBottom: 15,
     backgroundColor: 'white',
     borderRadius: 10,
     overflow: 'hidden',
-    android_hyphenationFrequency: 'none',
+    elevation: 2,
   },
   bookWrapperPressed: {
     elevation: 8,
@@ -428,5 +329,30 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 200,
     borderRadius: 10,
+  },
+  bookGridInfo: {
+    padding: 8,
+  },
+  gridBookTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 2,
+  },
+  gridAuthorName: {
+    fontSize: 12,
+    color: '#666',
+  },
+  navbar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    paddingVertical: 15,
+    borderTopWidth: 1,
+    borderTopColor: '#E2E2E2',
+  },
+  navItem: {
+    alignItems: 'center',
   },
 });

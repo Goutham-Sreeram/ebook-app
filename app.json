@@ -18,10 +18,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/app.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.frigginsphinx.PaperTrail"
     },
     "web": {
       "favicon": "./assets/app.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9aa24589-e41d-4f1a-ba42-04ef5a11305c"
+      }
     }
   }
 }
