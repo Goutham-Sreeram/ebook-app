@@ -1,33 +1,58 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, SafeAreaView } from 'react-native';
+import { View, TextInput, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function SearchScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.searchContainer}>
-        <Ionicons 
-          name="arrow-back" 
-          size={24} 
-          color="#333" 
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}
-        />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search books..."
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          autoFocus={true}
-        />
+    <View style={styles.mainContainer}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.searchContainer}>
+          <Ionicons 
+            name="arrow-back" 
+            size={24} 
+            color="#333" 
+            onPress={() => navigation.goBack()}
+            style={styles.backButton}
+          />
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Search books..."
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            autoFocus={true}
+          />
+        </View>
+      </SafeAreaView>
+
+      {/* Bottom Navigation Bar */}
+      <View style={styles.navbar}>
+        <TouchableOpacity 
+          style={styles.navItem}
+          onPress={() => navigation.navigate('HomeScreen')}
+        >
+          <Ionicons name="home" size={24} color="#666" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navItem}>
+          <Ionicons name="search" size={24} color="#6B4EFF" />
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.navItem}
+          onPress={() => navigation.navigate('LibraryScreen')}
+        >
+          <Ionicons name="library" size={24} color="#666" />
+        </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -50,5 +75,21 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 16,
     fontSize: 16,
+  },
+  navbar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    paddingVertical: 15,
+    borderTopWidth: 1,
+    borderTopColor: '#E2E2E2',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  navItem: {
+    alignItems: 'center',
   },
 }); 

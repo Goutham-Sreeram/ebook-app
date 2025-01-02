@@ -10,6 +10,7 @@ import {
   RegisterScreen,
   ResetPasswordScreen,
   HomeScreen,
+  LibraryScreen,
   SearchScreen,
 } from "./app/screens";
 
@@ -30,6 +31,7 @@ export default function App() {
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="SearchScreen" component={SearchScreen} />
+          <Stack.Screen name="LibraryScreen" component={LibraryScreen} /> 
           <Stack.Screen
             name="ResetPasswordScreen"
             component={ResetPasswordScreen}

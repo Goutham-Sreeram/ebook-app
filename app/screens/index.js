@@ -4,3 +4,4 @@ export { default as RegisterScreen } from "./RegisterScreen";
 export { default as ResetPasswordScreen } from "./ResetPasswordScreen";
 export { default as HomeScreen } from "./HomeScreen";
 export { default as SearchScreen } from './SearchScreen';
+export { default as LibraryScreen } from './LibraryScreen';

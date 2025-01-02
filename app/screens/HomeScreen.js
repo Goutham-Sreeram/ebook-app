@@ -7,6 +7,13 @@ export default function HomeScreen({ navigation }) {
   const [pressedBooks, setPressedBooks] = useState({});
   const pulseAnim = useRef(new Animated.Value(0)).current;
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good Morning";
+    if (hour < 18) return "Good Afternoon";
+    return "Good Evening";
+  };
+
   const handleBookPress = (bookId) => {
     setPressedBooks(prev => ({
       ...prev,
@@ -179,7 +186,7 @@ export default function HomeScreen({ navigation }) {
         {/* Header Section */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.greeting}>Good Morning</Text>
+            <Text style={styles.greeting}>{getGreeting()}</Text>
             <Text style={styles.userName}>Elise Maria</Text>
           </View>
           <TouchableOpacity onPress={handleLogout}>
@@ -217,8 +224,8 @@ export default function HomeScreen({ navigation }) {
             style={styles.bookThumbnail}
           />
           <View style={styles.bookInfo}>
-            <Text style={styles.bookTitle}>A perfect day to be alone</Text>
-            <Text style={styles.authorName}>Nanae Aoyama</Text>
+            <Text style={styles.bookTitle}>Greta & Valdin</Text>
+            <Text style={styles.authorName}>Rebecca K Reily</Text>
             <View style={styles.progressBar} />
           </View>
         </View>
@@ -266,7 +273,10 @@ export default function HomeScreen({ navigation }) {
         >
           <Ionicons name="search" size={24} color="#666" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity 
+          style={styles.navItem}
+          onPress={() => navigation.navigate('LibraryScreen')}
+        >
           <Ionicons name="library" size={24} color="#666" />
         </TouchableOpacity>
       </View>
