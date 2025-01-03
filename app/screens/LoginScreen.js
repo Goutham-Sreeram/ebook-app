@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TouchableOpacity, StyleSheet, View } from "react-native";
+import { TouchableOpacity, StyleSheet, View, Image } from "react-native";
 import { Text } from "react-native-paper";
 
 import Background from "../components/Background";
@@ -30,9 +30,14 @@ export default function LoginScreen({ navigation }) {
     });
   };
 
+  const onGoogleLoginPressed = () => {
+    // TODO: Implement Google Sign-In logic
+    console.log("Google login pressed");
+  };
+
   return (
     <Background>
-      <BackButton goBack={navigation.goBack} />
+      <BackButton goBack={() => navigation.navigate('StartScreen')} />
       <Logo />
       <Header>Hello.</Header>
       <TextInput
@@ -66,6 +71,21 @@ export default function LoginScreen({ navigation }) {
       <Button mode="contained" onPress={onLoginPressed}>
         Log in
       </Button>
+
+      <Text style={styles.orText}>or</Text>
+
+      <Button 
+        mode="outlined" 
+        onPress={onGoogleLoginPressed}
+        style={styles.googleButton}
+      >
+        <Image 
+          source={require('../../assets/google.svg')} 
+          style={styles.googleIcon} 
+        />
+        <Text>Sign in with Google</Text>
+      </Button>
+
       <View style={styles.row}>
         <Text>You do not have an account yet ?</Text>
       </View>
@@ -95,5 +115,22 @@ const styles = StyleSheet.create({
   link: {
     fontWeight: "bold",
     color: theme.colors.primary,
+  },
+  googleButton: {
+    marginTop: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: '#ddd',
+  },
+  googleIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
+  },
+  orText: {
+    marginVertical: 12,
+    fontSize: 16,
+    color: theme.colors.secondary,
   },
 });
