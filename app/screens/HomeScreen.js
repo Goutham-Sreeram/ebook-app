@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Animated, Easing, Alert } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/Feather';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function HomeScreen({ navigation }) {
@@ -192,19 +192,19 @@ export default function HomeScreen({ navigation }) {
       {/* Bottom Navigation Bar */}
       <View style={styles.navbar}>
         <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="home" size={24} color="#6B4EFF" />
+          <Icon name="home" size={24} color="#6B4EFF" />
         </TouchableOpacity>
         <TouchableOpacity 
           style={styles.navItem}
           onPress={() => navigation.navigate('SearchScreen')}
         >
-          <Ionicons name="search" size={24} color="#666" />
+          <Icon name="search" size={24} color="#666" />
         </TouchableOpacity>
         <TouchableOpacity 
           style={styles.navItem}
           onPress={() => navigation.navigate('LibraryScreen')}
         >
-          <Ionicons name="library" size={24} color="#666" />
+          <Icon name="book-open" size={24} color="#666" />
         </TouchableOpacity>
       </View>
     </View>
@@ -349,8 +349,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     paddingVertical: 15,
-    borderTopWidth: 1,
-    borderTopColor: '#E2E2E2',
+  
   },
   navItem: {
     alignItems: 'center',
